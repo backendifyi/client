@@ -13,7 +13,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Newsletter = () => {
   const [email, setEmail] = useState("");
-
    const handleChange = (e) => {
      setEmail({
        ...email,
@@ -40,8 +39,9 @@ const Newsletter = () => {
       const data = {
         email: email["email"],
       };
+      
       axios
-        .post(`${process.env.API_URL}/api/newsletter/`, data)
+        .post(`https://backendifyi.azurewebsites.net/api/newsletter/`, data)
         .then((response) => {
           console.log(response.status);
           var status = response.status;
