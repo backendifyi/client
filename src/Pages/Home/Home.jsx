@@ -2,16 +2,16 @@ import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 import rocket from "../../assets/rocket.png";
-import charmRocket from "../../assets/charm_rocket.png";
-import announcement from "../../assets/announcement.png"
-import play from "../../assets/bi_play-fill.png";
-import mouse from "../../assets/bi_mouse.png";
+// import charmRocket from "../../assets/charm_rocket.png";
+// import announcement from "../../assets/announcement.png"
+// import play from "../../assets/bi_play-fill.png";
+// import mouse from "../../assets/bi_mouse.png";
 
 import "./Home.css";
 
 import NavBar from "../../Components/NavBar/NavBar";
 import Newsletter from "../../Components/Newsletter/Newsletter";
-import Footer from "../../Components/Footer/Footer";
+// import Footer from "../../Components/Footer/Footer";
 
 const Home = () => {
   return (
