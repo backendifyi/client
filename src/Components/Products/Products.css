@@ -1,0 +1,18 @@
+.emailBoxImg{
+    width: 50%;
+}
+.productTitle{
+    font-family: 'Noto Serif Vithkuqi', serif;
+    margin-left: 2.5%;
+    margin-top: 3%;
+}
+.productData{
+    font-family: 'Noto Serif Vithkuqi', serif;
+}
+@media (max-width: 768px) {
+.emailBoxImg{
+    height: 0px;
+    width: 0px;
+}
+
+}

@@ -1,0 +1,73 @@
+.heroCard{
+    background: rgb(254,254,254);
+    background: linear-gradient(126deg, rgba(254,254,254,1) 0%, rgba(99, 8, 218, 1) 117%);
+    border: none;
+}
+.rightHeroCard{
+    font-family: 'Noto Serif Vithkuqi', serif;
+    background: none;
+    border: none;
+}
+.heroTitle{
+    font-weight: bold;
+    font-size: 32px;
+}
+.heroText{
+    font-size: 20px;
+}
+
+.mailbox{
+    padding-top: 20px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.manageCard{
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.tableCard{
+    border: none;
+}
+.circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #B5B4B4; /* Replace with desired background color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF; /* Replace with desired text color */
+  font-size: 24px; /* Replace with desired font size */
+}
+.bottomSection{
+    margin-top: 40px;
+}
+.emailboxName{
+    font-family: 'Noto Serif Vithkuqi', serif;
+    font-size: 20px;
+    font-weight:bold;
+}
+.visitButton{
+    background-color: rgba(99, 8, 218, 1);
+    font-family: 'Noto Serif Vithkuqi', serif;
+    padding: 0.1rem 0.7rem;
+}
+.dashboardSubtitle{
+    color: black;
+    font-family: 'Noto Serif Vithkuqi', serif;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 14px;
+    margin-left: 15px;
+}
+
+.emailboxTable tbody tr{
+    margin: 10px;
+}
+@media (max-width: 768px) {
+.heroFormButton{
+    margin-top: 2%;
+}
+}

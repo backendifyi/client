@@ -5,6 +5,7 @@ import logo from "../../assets/Backendifyi.png"
 
 import "./NavBar.css"
 
+
 const NavBar = () => {
   return (
     <Navbar expand="lg">
@@ -21,13 +22,13 @@ const NavBar = () => {
             >
               Home
             </Nav.Link>
-            {/* <Nav.Link
+            <Nav.Link
               className="nav-item"
               href="#link"
             >
               Features
             </Nav.Link>
-            <Nav.Link
+            {/* <Nav.Link
               className="nav-item"
               href="#link"
             >

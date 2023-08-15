@@ -1,0 +1,50 @@
+.featuresCard{
+    background-color: #1F1244;
+    font-family: 'Noto Serif Vithkuqi', serif;
+}
+.featuresCardTitle{
+    color: white;
+    font-size: xx-large;
+    font-weight: 800;
+    margin-top: 2%;
+}
+.featuresListRow{
+    margin-left: 5%;
+    margin-top: 3%;
+}
+.featuresListTitle{
+    color: white;
+    margin-top: 4%;
+    font-weight: bold;
+    font-size: large;
+}
+.featuresListTitle:hover{
+    color: #6742f1;
+}
+.featureDataTitle{
+    font-weight: 500;
+}
+.briefData{
+    margin-top: 3%;
+    margin-left: 2%;
+}
+.dataCard{
+    margin-bottom: 3%;
+}
+.featureImg{
+    height: 250px;
+    width: 250px;
+}
+@media (max-width: 768px) {
+  .dataCard{
+   margin-top: 5%;
+}
+.featureImg{
+    height: 0px;
+    width: 0px;
+}
+.briefData{
+    margin-right: 15%;
+    padding-right: 7%;
+}
+}

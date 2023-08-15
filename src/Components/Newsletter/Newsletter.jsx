@@ -22,7 +22,6 @@ const Newsletter = () => {
 
    const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(email["email"])
     if (email["email"].length === 0) {
       toast.warn("Please enter an Email Address", {
         position: "top-right",
@@ -43,10 +42,8 @@ const Newsletter = () => {
       axios
         .post(`https://backendifyi.azurewebsites.net/api/newsletter/`, data)
         .then((response) => {
-          console.log(response.status);
           var status = response.status;
           if (status === 201) {
-            console.log("in toast");
             toast.success("Awesome! You're in for some amazing content.", {
               position: "top-right",
               autoClose: 5000,
@@ -61,7 +58,6 @@ const Newsletter = () => {
         })
         .catch((error) => {
           var status = error.request.status;
-          console.log(status);
           if (status === 409) {
             toast.warning(
               "Oops! Looks like you're already subscribed with that email.",
@@ -77,7 +73,6 @@ const Newsletter = () => {
               }
             );
           } else {
-            console.log("incrr ");
             toast.error(
               "That seems to be an incorrect email. Please check once.",
               {
@@ -98,7 +93,7 @@ const Newsletter = () => {
    }
   return (
     <>
-      <Card className="bg-transparent card">
+      <Card className="bg-transparent newsletter-card">
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>

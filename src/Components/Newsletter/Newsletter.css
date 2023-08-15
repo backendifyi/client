@@ -1,4 +1,4 @@
-.card{
+.newsletter-card{
     position: sticky;
     border: none;
     justify-content: center;
@@ -10,7 +10,7 @@
 }
 
 @media screen and (max-width: 992px) {
-    .card{
+    .newsletter-card{
     width: 100%;
 }
 .submit{

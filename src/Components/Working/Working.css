@@ -1,0 +1,32 @@
+.workingTitle{
+    font-family: 'Noto Serif Vithkuqi', serif;
+    font-weight: 500;
+    margin-top: 3%;
+    margin-left: 6%;
+}
+.workingCardTitle{
+    font-family: 'Noto Serif Vithkuqi', serif;
+    font-size: xx-large;
+    font-weight: 600;
+    margin-bottom: 2%;
+}
+.workingCardBody{
+  font-family: 'Noto Serif Vithkuqi', serif;
+}
+.circleW {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color:#6742f1;/* Replace with desired background color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF; /* Replace with desired text color */
+  font-size: 24px; /* Replace with desired font size */
+}
+@media (max-width: 768px) {
+  .workingCardCol{
+  margin-top: 5%;
+}
+}
+

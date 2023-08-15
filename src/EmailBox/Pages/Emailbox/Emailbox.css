@@ -1,0 +1,27 @@
+.emailboxDiv{
+    margin-top: 30px;
+}
+.manageCard{
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.cardTitle{
+    margin-top: 30px;
+    margin-left: 15px;
+    font-family: 'Noto Serif Vithkuqi', serif;
+    font-size: 24px;
+    font-weight: bold;
+}
+.cardText{
+    font-family: 'Noto Serif Vithkuqi', serif;
+    font-size: 20px;
+}
+.emailbox-body{
+    background: rgb(254,254,254);
+    background: linear-gradient(126deg, rgba(254,254,254,1) 0%, rgba(64,114,241,1) 117%);
+}
+@media (max-width: 768px) {
+.apiForm{
+    margin-top: 2%;
+}
+}

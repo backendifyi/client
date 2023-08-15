@@ -1,0 +1,30 @@
+.lstitle{
+    font-family: 'Noto Serif Vithkuqi', serif;
+    font-size: xx-large;
+    font-weight: 600;
+    margin-left: 10%;
+}
+.lsSubtitle{
+    font-family: 'Noto Serif Vithkuqi', serif;
+    font-size: large;
+    font-weight: 600;
+    color: #69697C;
+    margin-left: 10%;
+}
+.lsButton{
+    font-family: 'Noto Serif Vithkuqi', serif;
+    font-size: large;
+    font-weight: 600;
+    margin-left: 10%;
+}
+.lsImg{
+    margin-left: 10%;
+    width: 55%;
+}
+@media (max-width: 768px) {
+.lsImg{
+    margin-top: 5%;
+    margin-left: 0;
+}
+
+}
