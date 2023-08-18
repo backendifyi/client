@@ -15,14 +15,13 @@ import NavBar from '../../../Components/NavBar/NavBar';
 
 const Emailbox = () => {
   const { state } = useLocation()
-  console.log(state.projectId)
   const navigate = useNavigate();
   const [loadPage, setLoadPage] = useState(false);
   
   useEffect(() => {
     const { allowPage } = state || {}; // Access the parameter from state
+
     if (!allowPage) {
-      console.log("return");
       return navigate("/dashboard");
     } else {
       setLoadPage(true);

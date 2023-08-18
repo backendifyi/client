@@ -59,6 +59,7 @@ const Instant = () => {
   };
 
   const handleSubmit = () => {
+    toast.success("Email Sent Succesfully");
     const emailData = {
       "emailId": emailId,
       "subject": subject,
@@ -80,7 +81,13 @@ const Instant = () => {
       )
       .then((response) => {
         if (response.status == 201) {
-          toast.success("Email Sent Succesfully");
+          // toast.success("Email Sent Succesfully");
+          navigate("/emailbox", {
+            state: {
+              allowPage: true,
+              projectId: projectId,
+            },
+          });
         }
       });
       
@@ -93,7 +100,10 @@ const Instant = () => {
         <Button
           onClick={() =>
             navigate("/emailbox", {
-              state: { projectId: projectId },
+              state: { 
+                allowPage:true,
+                projectId: projectId 
+              },
             })
           }
         >

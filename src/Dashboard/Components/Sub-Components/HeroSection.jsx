@@ -36,6 +36,7 @@ const HeroSection = () => {
     const data = {
       "project_name": project,
     };
+
     axios
       .post(
         `${process.env.REACT_APP_API_ACTIVE_URL}/api/emailbox/`,
@@ -46,10 +47,23 @@ const HeroSection = () => {
         const project_id = response.data.project_id;
         navigate("/emailbox", {
           state: {
+            allowPage: true,
             projectId: project_id,
           },
         });
-      });
+      })
+      .catch(error => {
+        if(error.response.status === 406){
+          toast.warning("You have exceeded your Limit!");
+        }
+        else if(error.response.status === 409){
+          toast.warning("You have an existing emailbox with the same name!");
+        }
+        else{
+          toast.warning("We are facing some server issues :(");
+        }
+        
+      })
   })
   return (
     <>
@@ -61,7 +75,6 @@ const HeroSection = () => {
                 <img src={mailbox} className="mailbox" alt="My SVG" />
               </center>
             </Col>
-
             <Col xl={9} lg={9} md={12} sm={12}>
               <Card className="rightHeroCard">
                 <Card.Title className="heroTitle">EmailBox</Card.Title>

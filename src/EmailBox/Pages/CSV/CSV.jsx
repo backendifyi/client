@@ -9,6 +9,7 @@ import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import NavBar from '../../../Components/NavBar/NavBar';
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import { ToastContainer, toast } from "react-toastify";
 
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
@@ -52,6 +53,7 @@ const CSV = () => {
 
   const handleFormSubmit = () => {
     // Make the axios call using the stored form data
+    toast.success("Please Check your Inbox!!");
     axios
       .post(
         `${process.env.REACT_APP_API_ACTIVE_URL}/api/emailbox/csv/`,
@@ -59,6 +61,12 @@ const CSV = () => {
       )
       .then((response) => {
         // Handle the response
+        navigate("/emailbox", {
+          state: {
+            allowPage: true,
+            projectId: projectId,
+          },
+        });
       })
       .catch((error) => {
         // Handle the error
@@ -208,6 +216,7 @@ const CSV = () => {
             </Row>
             <br />
           </Container>
+          <ToastContainer />
         </>
       ) : (
         <></>

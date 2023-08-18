@@ -70,4 +70,11 @@
 .heroFormButton{
     margin-top: 2%;
 }
+  .mailbox{
+    width: 0%;
+    height: 0%;
+  }
+  .heroText{
+    font-size: 16px;
+}
 }
