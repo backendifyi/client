@@ -7,6 +7,7 @@ import {
   Card,
   Button,
   Form,
+  Spinner
 } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -15,6 +16,7 @@ import mailbox from "../../../assets/undraw_mailbox_re_dvds.svg";
 
 const HeroSection = () => {
   const [project, setProject] = useState()
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleInputChange = (event) => {
@@ -26,6 +28,7 @@ const HeroSection = () => {
       toast.warning("Please Enter EmailBox Name")
       return
     }
+    setLoading(true);
     const token = localStorage.getItem("btoken");
     const config = {
       headers: {
@@ -45,6 +48,7 @@ const HeroSection = () => {
       )
       .then((response) => {
         const project_id = response.data.project_id;
+        setLoading(false);
         navigate("/emailbox", {
           state: {
             allowPage: true,
@@ -53,6 +57,7 @@ const HeroSection = () => {
         });
       })
       .catch(error => {
+        setLoading(false);
         if(error.response.status === 406){
           toast.warning("You have exceeded your Limit!");
         }
@@ -100,14 +105,32 @@ const HeroSection = () => {
 
                     <Col>
                       <Form.Group>
-                        <Button
-                          className="heroFormButton"
-                          type="button"
-                          variant="dark"
-                          onClick={handleSubmit}
-                        >
-                          Create EmailBox
-                        </Button>
+                        {loading === false ? (
+                          <Button
+                            className="heroFormButton"
+                            type="button"
+                            variant="dark"
+                            onClick={handleSubmit}
+                          >
+                            Create EmailBox
+                          </Button>
+                        ) : (
+                          <Button
+                            className="heroFormButton"
+                            type="button"
+                            variant="dark"
+                          >
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                            &nbsp; Creating ...
+                          </Button>
+                        )}
+                       
                       </Form.Group>
                     </Col>
                   </Row>

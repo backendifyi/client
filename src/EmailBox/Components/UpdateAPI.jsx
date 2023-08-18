@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Col, Row, Form, Button } from "react-bootstrap";
+import { Col, Row, Form, Button, Spinner } from "react-bootstrap";
 import { FaRegClipboard } from "react-icons/fa";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
+import Skeleton from "@mui/material/Skeleton";
+
 
 import "../Pages/Emailbox/Emailbox.css";
 
@@ -13,8 +15,9 @@ import axios from "axios";
 const UpdateAPI = () => {
   const { state } = useLocation();
   const projectId = state.projectId;
+  const [loading, setLoading] = useState(false)
 
-  const [apiKey, setApiKey] = useState("");
+  const [apiKey, setApiKey] = useState(undefined);
   const [initialApiKey, setInitialApiKey] = useState("");
 const token = localStorage.getItem("btoken");
 const config = {
@@ -43,6 +46,7 @@ const config = {
   }, []);
 
   const handleUpdateAPIKey = () => {
+    setLoading(true)
     const data = {
       project_id: state.projectId,
     };
@@ -53,12 +57,14 @@ const config = {
         config
       )
       .then((response) => {
-        const updatedApiKey = response.data.api_key; // Get the updated API key from the response
-        setApiKey(updatedApiKey); // Update the apiKey state with the new value
-        setInitialApiKey(updatedApiKey); // Update the initial API key value
+        const updatedApiKey = response.data.api_key; 
+        setApiKey(updatedApiKey);
+        setInitialApiKey(updatedApiKey); 
+        setLoading(false)
         toast.success("API Key updated successfully!");
       })
       .catch((error) => {
+        setLoading(false)
         toast.error("An error occurred while updating the API Key.");
       });
   };
@@ -69,24 +75,54 @@ const config = {
         <Row>
           <Col xl={9} lg={9} sm={6} xs={6}>
             <Form.Group controlId="formTextField" className="apiFormInput">
-              <Form.Control
-                type="text"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-              />
+              {apiKey === undefined ? (
+                <>
+                  <Skeleton variant="rounded" height="40px" />
+                </>
+              ) : (
+                <Form.Control
+                  type="text"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                />
+              )}
             </Form.Group>
           </Col>
           <Col>
             <Form.Group controlId="formButton">
-              <CopyToClipboard text={apiKey}>
-                <Button className="formButton">
-                  <FaRegClipboard />
-                </Button>
-              </CopyToClipboard>
+              {apiKey === undefined ? (
+                <>
+                  <Skeleton variant="rounded" height="40px" />
+                </>
+              ) : (
+                <CopyToClipboard text={apiKey}>
+                  <Button className="formButton">
+                    <FaRegClipboard />
+                  </Button>
+                </CopyToClipboard>
+              )}
               &nbsp;
-              <Button className="formButton" onClick={handleUpdateAPIKey}>
-                Update API Key
-              </Button>
+              {apiKey === undefined ? (
+                <></>
+              ) : (
+                <Button className="formButton" onClick={handleUpdateAPIKey}>
+                  {loading ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                      &nbsp;Updating ...
+                    </>
+                  ) : (
+                    "Update API Key"
+                  )}
+                </Button>
+              )}
+              &nbsp;
             </Form.Group>
           </Col>
         </Row>

@@ -6,6 +6,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FaRegClipboard } from "react-icons/fa";
 import { MdOutlineEmail, MdDelete } from "react-icons/md";
 import { FcFlashOn } from "react-icons/fc";
+import Skeleton from "@mui/material/Skeleton";
 import "../Pages/Emailbox/Emailbox.css";
 
 import withAuth from "../../utils/withAuth";
@@ -16,7 +17,7 @@ const EmailboxData = () => {
   const { state } = useLocation();
   const projectId = state.projectId;
   
-  const [emails, setEmails] = useState();
+  const [emails, setEmails] = useState(undefined);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(2);
   const navigate = useNavigate();
@@ -69,6 +70,45 @@ const EmailboxData = () => {
         "projectId":projectId
       }
     })
+  }
+  const renderSkeletonTableRows = () => {
+    return (
+      <tr>
+        <td>
+          <Skeleton variant="rounded" height="30px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" />
+        </td>
+      </tr>
+    );
   }
 
    const renderTableRows = () => {
@@ -189,7 +229,11 @@ const EmailboxData = () => {
               <th></th>
             </tr>
           </thead>
-          <tbody>{renderTableRows()}</tbody>
+          {emails === undefined ? (
+            <tbody>{renderSkeletonTableRows()}</tbody>
+          ) : (
+            <tbody>{renderTableRows()}</tbody>
+          )}
         </Table>
       </Container>
 

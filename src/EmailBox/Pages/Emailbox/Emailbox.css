@@ -20,6 +20,10 @@
     background: rgb(254,254,254);
     background: linear-gradient(126deg, rgba(254,254,254,1) 0%, rgba(64,114,241,1) 117%);
 }
+/* .skeletonApiKey{
+    width: 100%;
+    height: 60px;
+} */
 @media (max-width: 768px) {
 .apiForm{
     margin-top: 2%;

@@ -5,6 +5,7 @@ import { Card, Button, Table, Badge, Container } from "react-bootstrap";
 import { FaRegClipboard } from "react-icons/fa";
 import { MdOutlineEmail, MdDelete } from "react-icons/md";
 import { FcFlashOn } from "react-icons/fc";
+import Skeleton from "@mui/material/Skeleton";
 
 import "../Content.css";
 
@@ -32,6 +33,28 @@ const MiniEmailboxData = () => {
           setEmails(data);
         });
     }, []);
+
+    const renderSkeletonTableRows = () => {
+      return (
+        <tr>
+          <td>
+            <Skeleton variant="rounded" height="30px" />
+          </td>
+          <td>
+            <Skeleton variant="rounded" height="30px" />
+          </td>
+          <td>
+            <Skeleton variant="rounded" height="30px" />
+          </td>
+          <td>
+            <Skeleton variant="rounded" height="30px" />
+          </td>
+          {/* <td>
+            <Skeleton variant="rounded" height="30px" />
+          </td> */}
+        </tr>
+      );
+    }
 
     const renderTableRows = () => {
       if (emails !== undefined) {
@@ -92,6 +115,7 @@ const MiniEmailboxData = () => {
                   <Badge bg="secondary">{email.domain}</Badge>
                 )}
               </td>
+
             </tr>
           );
         });
@@ -117,7 +141,11 @@ const MiniEmailboxData = () => {
                   <th></th>
                 </tr>
               </thead>
-              <tbody>{renderTableRows()}</tbody>
+              {emails === undefined ? (
+                <tbody>{renderSkeletonTableRows()}</tbody>
+              ) : (
+                <tbody>{renderTableRows()}</tbody>
+              )}
             </Table>
           </Container>
         </Card.Body>

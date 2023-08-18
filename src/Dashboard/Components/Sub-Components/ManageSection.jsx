@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Skeleton from "@mui/material/Skeleton";
 import axios from "axios";
 import {
   Card,
@@ -30,7 +31,21 @@ const ManageSection = () => {
       });
   },[])
     
-
+  const renderSkeletonTableRows = () => {
+    return (
+      <tr>
+        <td>
+          <Skeleton variant="circular" height="30px" width="30px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" width="60px" />
+        </td>
+        <td>
+          <Skeleton variant="rounded" height="30px" width="60px" />
+        </td>
+      </tr>
+    );
+  }
   const renderTableRows = () => {
     if (emailboxList !== undefined) {
       return emailboxList.map((msg, idx) => {
@@ -70,9 +85,14 @@ const ManageSection = () => {
           View & Manage EmailBox
         </Card.Title>
         <Card.Body>
-            <Table bordereless="true" size="sm" className="emailboxTable">
+          <Table bordereless="true" size="sm" className="emailboxTable">
+            {emailboxList === undefined ? (
+              <tbody>{renderSkeletonTableRows()}</tbody>
+            ) : (
               <tbody>{renderTableRows()}</tbody>
-            </Table>
+            )}
+            
+          </Table>
         </Card.Body>
       </Card>
     </>

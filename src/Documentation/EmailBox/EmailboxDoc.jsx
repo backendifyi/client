@@ -6,7 +6,7 @@ import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 
 const EmailboxDoc = () => {
   const jsonSnippet = `{
-  "email": "jo hndoe@example.com"
+  "email": "johndoe@example.com"
 }`;
 
   const jsonResponseSnippet = `{
@@ -27,7 +27,7 @@ const EmailboxDoc = () => {
             <hr />
             <h2>1. Sign In to Backendifyi</h2>
             <p>
-              The <a href="http://backendifyi.com">home page</a> features a
+              The <a target="_blank" href="http://backendifyi.vercel.app">home page</a> features a
               &quot;Sign in with Google&quot; option. Once logged in, the
               dashboard with the EmailBox page will be displayed.
             </p>
@@ -56,7 +56,7 @@ const EmailboxDoc = () => {
               following endpoint:
             </p>
             <pre className="code code-wrap">
-              <code>http://127.0.0.1:8000/api/emailbox/addEmail/</code>
+              <code>https://api.backendifyi.vercel.app/api/emailbox/addEmail/</code>
             </pre>
             <p>The request should include the following data:</p>
             <ol type="1" className="numbered-list" start="1">

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
-import { Container, Card, Col, Row, Form, Button } from 'react-bootstrap'
+import { Container, Card, Col, Row, Form, Button, Spinner } from 'react-bootstrap'
 import { ToastContainer, toast } from "react-toastify"
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import Skeleton from "@mui/material/Skeleton";
 
 import axios from 'axios';
 
@@ -19,10 +20,17 @@ const Instant = () => {
   const [ emailId, setEmailId] = useState()
   const [email, setEmail] = useState();
   const [projectId, setProjectId] = useState();
-  const [canReply, setCanReply] = useState(0)
+  const [canReply, setCanReply] = useState(false)
+  const [skeleton, setSkeleton] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if(!(state.allowPage)) return navigate("/dashboard")
+    const { allowPage } = state || {}; // Access the parameter from state
+
+    if (!allowPage) {
+      return navigate("/dashboard");
+    }
+    console.log(state.emailId)
     setEmailId(state.emailId)
     setEmail(state.email)
     setProjectId(state.projectId)
@@ -35,20 +43,23 @@ const Instant = () => {
     };
     axios
       .get(
-        `${process.env.REACT_APP_API_ACTIVE_URL}/api/emailbox/instantReply/?emailId=${emailId}`,
+        `${process.env.REACT_APP_API_ACTIVE_URL}/api/emailbox/instantReply/?emailId=${state.emailId}`,
         config
       )
 
-      .then(() => {
-        setCanReply(1);
+      .then((response) => {
+        console.log(response)
+        setSkeleton(false)
+        setCanReply(true);
       })
       .catch((e) => {
         const data = e.response.data;
         setSubject(data["subject"]);
         setBody(data["body"]);
-        setCanReply(0);
+        setCanReply(false);
+        setSkeleton(false)
       });
-  })
+  },[])
 
   const handleSubjectChange = (e) => {
     setSubject(e.target.value);
@@ -59,7 +70,16 @@ const Instant = () => {
   };
 
   const handleSubmit = () => {
-    toast.success("Email Sent Succesfully");
+    if (!subject) {
+      toast.error("Please enter a Subject");
+      return;
+    }
+    if (!body) {
+      toast.error("Please enter an email body.");
+      return;
+    }
+    // toast.success("Email Sent Succesfully");
+    setLoading(true)
     const emailData = {
       "emailId": emailId,
       "subject": subject,
@@ -80,8 +100,9 @@ const Instant = () => {
         config
       )
       .then((response) => {
-        if (response.status == 201) {
+        if (response.status === 201) {
           // toast.success("Email Sent Succesfully");
+          setLoading(false)
           navigate("/emailbox", {
             state: {
               allowPage: true,
@@ -100,9 +121,9 @@ const Instant = () => {
         <Button
           onClick={() =>
             navigate("/emailbox", {
-              state: { 
-                allowPage:true,
-                projectId: projectId 
+              state: {
+                allowPage: true,
+                projectId: projectId,
               },
             })
           }
@@ -110,32 +131,48 @@ const Instant = () => {
           <BsFillArrowLeftCircleFill /> &nbsp; EmailBox
         </Button>
       </Container>
-      {canReply === 1 ? (
-        <>
-          <Container className="emailboxDiv">
-            <Card className="manageCard">
-              <Card.Title className="cardFormTitle">
-                Send Instant Reply to <b>{email}</b>{" "}
-              </Card.Title>
-              <Card.Text className="cardFormText">
-                <Form>
-                  <Form.Group controlId="formTextField">
-                    <Form.Control
-                      type="text"
-                      onChange={handleSubjectChange}
-                      placeholder="Enter Subject for your Reply"
-                    />
-                    <br />
-                    <Form.Control
-                      type="text"
-                      as="textarea"
-                      rows={5}
-                      onChange={handleBodyChange}
-                      placeholder="Enter Your Reply...."
-                    />
-                  </Form.Group>
+      {skeleton ? (
+        <Container>
+          <br />
+          <Skeleton variant="rounded" height="500px" />
+        </Container>
+      ) : canReply ? (
+        <Container className="emailboxDiv">
+          <Card className="manageCard">
+            <Card.Title className="cardFormTitle">
+              Send Instant Reply to <b>{email}</b>{" "}
+            </Card.Title>
+            <Card.Text className="cardFormText">
+              <Form>
+                <Form.Group controlId="formTextField">
+                  <Form.Control
+                    type="text"
+                    onChange={handleSubjectChange}
+                    placeholder="Enter Subject for your Reply"
+                  />
                   <br />
-                  <Form.Group controlId="formButton">
+                  <Form.Control
+                    type="text"
+                    as="textarea"
+                    rows={5}
+                    onChange={handleBodyChange}
+                    placeholder="Enter Your Reply...."
+                  />
+                </Form.Group>
+                <br />
+                <Form.Group controlId="formButton">
+                  {loading ? (
+                    <Button className="formButton" type="button">
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                      &nbsp; Sending Email...
+                    </Button>
+                  ) : (
                     <Button
                       className="formButton"
                       type="button"
@@ -143,112 +180,110 @@ const Instant = () => {
                     >
                       Send Text as Email Reply
                     </Button>
-                  </Form.Group>
-                  <br />
-                </Form>
-              </Card.Text>
-            </Card>
-            <br />
-            <Card className="manageCard">
-              <div>
-                <div
-                  style={{
-                    backgroundColor: "#D7C0F5",
-                    height: "200px",
-                    width: "auto",
-                    top: "-0px",
-                  }}
-                ></div>
-                <center>
-                  <Card className="emailUI">
-                    <div>
-                      <br />
-                      <div style={{ fontSize: "40px", fontWeight: "700" }}>
-                        {subject}
-                      </div>
-                      <br />
-                      <br />
-                      <br />
-                      <br />
-                      <div
-                        style={{
-                          textAlign: "left",
-                          fontSize: "22px",
-                          fontWeight: "700",
-                          marginLeft: "15px",
-                          marginRight: "15px",
-                        }}
-                      >
-                        {body}
-                      </div>
+                  )}
+                </Form.Group>
+                <br />
+              </Form>
+            </Card.Text>
+          </Card>
+          <br />
+          <Card className="manageCard">
+            <div>
+              <div
+                style={{
+                  backgroundColor: "#D7C0F5",
+                  height: "200px",
+                  width: "auto",
+                  top: "-0px",
+                }}
+              ></div>
+              <center>
+                <Card className="emailUI">
+                  <div>
+                    <br />
+                    <div style={{ fontSize: "40px", fontWeight: "700" }}>
+                      {subject}
                     </div>
-                    <center>
-                      <img
-                        style={{ marginTop: "30px" }}
-                        src="https://client-backendifyi.vercel.app/static/media/Backendifyi.375e5c7c14bf36ec30c6.png"
-                        alt="Logo"
-                        className="emailUILogo"
-                      />
-                    </center>
-                  </Card>
-                </center>
-              </div>
-            </Card>
-            <br />
-          </Container>
-        </>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <div
+                      style={{
+                        textAlign: "left",
+                        fontSize: "22px",
+                        fontWeight: "700",
+                        marginLeft: "15px",
+                        marginRight: "15px",
+                      }}
+                    >
+                      {body}
+                    </div>
+                  </div>
+                  <center>
+                    <img
+                      style={{ marginTop: "30px" }}
+                      src="https://client-backendifyi.vercel.app/static/media/Backendifyi.375e5c7c14bf36ec30c6.png"
+                      alt="Logo"
+                      className="emailUILogo"
+                    />
+                  </center>
+                </Card>
+              </center>
+            </div>
+          </Card>
+          <br />
+        </Container>
       ) : (
-        <>
-          <Container>
-            <h3>You have already replied to {email}</h3>
-            <br />
-            <Card className="manageCard">
-              <div>
-                <div
-                  style={{
-                    backgroundColor: "#D7C0F5",
-                    height: "200px",
-                    width: "auto",
-                    top: "-0px",
-                  }}
-                ></div>
-                <center>
-                  <Card className="emailUI">
-                    <div>
-                      <br />
-                      <div style={{ fontSize: "40px", fontWeight: "700" }}>
-                        {subject}
-                      </div>
-                      <br />
-                      <br />
-                      <br />
-                      <br />
-                      <div
-                        style={{
-                          textAlign: "left",
-                          fontSize: "22px",
-                          fontWeight: "700",
-                          marginLeft: "15px",
-                          marginRight: "15px",
-                        }}
-                      >
-                        {body}
-                      </div>
+        <Container>
+          <h3>You have already replied to {email}</h3>
+          <br />
+          <Card className="manageCard">
+            <div>
+              <div
+                style={{
+                  backgroundColor: "#D7C0F5",
+                  height: "200px",
+                  width: "auto",
+                  top: "-0px",
+                }}
+              ></div>
+              <center>
+                <Card className="emailUI">
+                  <div>
+                    <br />
+                    <div style={{ fontSize: "40px", fontWeight: "700" }}>
+                      {subject}
                     </div>
-                    <center>
-                      <img
-                        style={{ marginTop: "30px" }}
-                        src="https://client-backendifyi.vercel.app/static/media/Backendifyi.375e5c7c14bf36ec30c6.png"
-                        alt="Logo"
-                        className="emailUILogo"
-                      />
-                    </center>
-                  </Card>
-                </center>
-              </div>
-            </Card>
-          </Container>
-        </>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <div
+                      style={{
+                        textAlign: "left",
+                        fontSize: "22px",
+                        fontWeight: "700",
+                        marginLeft: "15px",
+                        marginRight: "15px",
+                      }}
+                    >
+                      {body}
+                    </div>
+                  </div>
+                  <center>
+                    <img
+                      style={{ marginTop: "30px" }}
+                      src="https://client-backendifyi.vercel.app/static/media/Backendifyi.375e5c7c14bf36ec30c6.png"
+                      alt="Logo"
+                      className="emailUILogo"
+                    />
+                  </center>
+                </Card>
+              </center>
+            </div>
+          </Card>
+        </Container>
       )}
       <ToastContainer />
     </>
