@@ -12,85 +12,41 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 const Newsletter = () => {
-  const [email, setEmail] = useState("");
-   const handleChange = (e) => {
-     setEmail({
-       ...email,
-       [e.target.name]: e.target.value.trim(),
-     });
+  const [email, setEmail] = useState();
+   const handleChange = (event) => {
+     setEmail(event.target.value);
    };
 
    const handleSubmit = (e) => {
-    e.preventDefault()
-    if (email["email"].length === 0) {
-      toast.warn("Please enter an Email Address", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } 
-    else{
-      const data = {
-        email: email["email"],
-      };
-      
-      axios
-        .post(`https://backendifyi.azurewebsites.net/api/newsletter/`, data)
-        .then((response) => {
-          var status = response.status;
-          if (status === 201) {
-            toast.success("Awesome! You're in for some amazing content.", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }
-        })
-        .catch((error) => {
-          var status = error.request.status;
-          if (status === 409) {
-            toast.warning(
-              "Oops! Looks like you're already subscribed with that email.",
-              {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              }
-            );
-          } else {
-            toast.error(
-              "That seems to be an incorrect email. Please check once.",
-              {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              }
-            );
-          }
-        });
-      };
-
-   }
+     if (email == null || email == undefined) {
+       alert("Please Enter an Email Address");
+       return;
+     }
+     const token = `${process.env.REACT_APP_BACKENDIFYI}`;
+     const config = {
+       headers: {
+         "Content-Type": "application/json",
+         Authorization: `APIKey ${token}`,
+       },
+     };
+     const data = {
+       email,
+     };
+     console.log(data, config);
+     axios
+       .post(
+         `https://api.backendifyi.vercel.app/api/emailbox/addEmail/`,
+         data,
+         config
+       )
+       .then((response) => {
+         console.log(response);
+         alert("Subscription Added Successfully!");
+       })
+       .catch((error) => {
+        console.log(error.response)
+       })
+   };
   return (
     <>
       <Card className="bg-transparent newsletter-card">
@@ -113,7 +69,7 @@ const Newsletter = () => {
               </Col>
               <Col>
                 <button
-                  type="submit"
+                  type="button"
                   className="btn btn-outline-dark btn-md submit"
                   onClick={handleSubmit}
                 >
