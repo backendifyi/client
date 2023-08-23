@@ -12,41 +12,104 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 const Newsletter = () => {
-  const [email, setEmail] = useState();
-   const handleChange = (event) => {
-     setEmail(event.target.value);
-   };
+  const [email, setEmail] = useState("");
+  const handleChange = (event) => {
+    setEmail(event.target.value);
+  }
 
-   const handleSubmit = (e) => {
-     if (email == null || email == undefined) {
-       alert("Please Enter an Email Address");
-       return;
-     }
-     const token = `${process.env.REACT_APP_BACKENDIFYI}`;
-     const config = {
-       headers: {
-         "Content-Type": "application/json",
-         Authorization: `APIKey ${token}`,
-       },
-     };
-     const data = {
-       email,
-     };
-     console.log(data, config);
-     axios
-       .post(
-         `https://api.backendifyi.vercel.app/api/emailbox/addEmail/`,
-         data,
-         config
-       )
-       .then((response) => {
-         console.log(response);
-         alert("Subscription Added Successfully!");
-       })
-       .catch((error) => {
-        console.log(error.response)
-       })
-   };
+  const validateEmail = (email) => {
+    // Regular expression pattern for matching email addresses
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+
+  const handleSubmit = (e) => {
+    if (email === "" || email === null || email === undefined) {
+      toast.warn("Please enter an Email Address!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setEmail("");
+      return;
+    }
+    if (!validateEmail(email)) {
+      toast.warn("Please enter a Valid Email Address!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setEmail("");
+      return;
+    }
+    const token = `${process.env.REACT_APP_BACKENDIFYI}`;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `APIKey ${token}`,
+      },
+    };
+    const data = {
+      email: email,
+    };
+    // console.log(data, config);
+    axios
+      .post(
+        `${process.env.REACT_APP_API_ACTIVE_URL}/api/emailbox/addEmail/`,
+        data,
+        config
+      )
+      .then((response) => {
+        toast.success("Subscription Added Successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setEmail("");
+      })
+      .catch((error) => {
+        if (error.response.status === 403) {
+          toast.error("Too many requests, please try after some time!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setEmail("");
+        } else {
+          toast.error("We face some issue, please try after some time!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setEmail("");
+        }
+      });
+  };
   return (
     <>
       <Card className="bg-transparent newsletter-card">
@@ -64,6 +127,7 @@ const Newsletter = () => {
                   type="email"
                   placeholder="Enter email"
                   name="email"
+                  value={email}
                   onChange={handleChange}
                 />
               </Col>

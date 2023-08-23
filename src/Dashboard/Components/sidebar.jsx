@@ -31,7 +31,9 @@ const Sidebar = (props) => {
         }}
       >
         <center>
-          <span style={{ color: "orange" }} className="dashboardTitle">Backendifyi</span>
+          <span style={{ color: "orange" }} className="dashboardTitle">
+            Backendifyi
+          </span>
         </center>
       </div>
       <Nav className="flex-column sidebar " expand="lg" fixed="left">
@@ -66,7 +68,7 @@ const Sidebar = (props) => {
 
         <div className="sidemenu">
           <Nav.Link
-            onClick={() => navigate("/emailbox/documentation")}
+            href="https://docs.backendifyi.vercel.app/"
             className="sidemenu"
           >
             <HiDocumentText className="mr-2" />

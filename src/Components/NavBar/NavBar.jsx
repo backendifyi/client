@@ -47,6 +47,12 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
+            <Nav.Link
+              className="nav-item"
+              href="https://docs.backendifyi.vercel.app/"
+            >
+              Documentation
+            </Nav.Link>
             {/* <Nav.Link
               className="nav-item"
               href="#home"
@@ -67,12 +73,6 @@ const NavBar = () => {
               href="#link"
             >
               Pricing
-            </Nav.Link>
-            <Nav.Link
-              className="nav-item"
-              href="#link"
-            >
-              Documentation
             </Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
